@@ -1,0 +1,9 @@
+menu_id,brand,name,price,cogs,effective_date
+1,X,Nasi Goreng,25000,8000,2021-01-01
+2,X,Mie Goreng,25000,7000,2021-01-01
+3,Y,10pcs Chicken Wings,100000,40000,2021-01-01
+4,Z,Burger,65000,20000,2021-01-01
+1,X,Nasi Goreng,27500,8000,2021-03-08
+1,X,Nasi Goreng,27500,9000,2021-03-09
+3,Y,10pcs Chicken Wings,110000,42000,2021-02-01
+4,Z,Burger,75000,22000,2021-04-01
