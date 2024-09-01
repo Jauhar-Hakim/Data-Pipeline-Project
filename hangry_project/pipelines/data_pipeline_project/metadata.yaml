@@ -3,7 +3,8 @@ blocks:
   color: yellow
   configuration: {}
   downstream_blocks:
-  - load_local
+  - data_load_local
+  - data_load_api
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -19,22 +20,38 @@ blocks:
   color: null
   configuration:
     file_source:
-      path: data_loaders/load_local.py
+      path: data_loaders/data_load_local.py
   downstream_blocks:
   - df_checking
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: load_local
+  name: data_load_local
+  retry_config: null
+  status: not_executed
+  timeout: null
+  type: data_loader
+  upstream_blocks:
+  - data_source_condition
+  uuid: data_load_local
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: data_load_api
   retry_config: null
   status: executed
   timeout: null
   type: data_loader
   upstream_blocks:
   - data_source_condition
-  uuid: load_local
-- all_upstream_blocks_executed: true
+  uuid: data_load_api
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
@@ -50,7 +67,7 @@ blocks:
   timeout: null
   type: transformer
   upstream_blocks:
-  - load_local
+  - data_load_local
   uuid: df_checking
 cache_block_output_in_memory: false
 callbacks: []
@@ -64,13 +81,29 @@ conditionals:
   executor_type: local_python
   has_callback: false
   language: python
+  name: data_source_api
+  retry_config: null
+  status: updated
+  timeout: null
+  type: conditional
+  upstream_blocks:
+  - data_load_api
+  uuid: data_source_api
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
   name: data_source_local
   retry_config: null
   status: updated
   timeout: null
   type: conditional
   upstream_blocks:
-  - load_local
+  - data_load_local
   uuid: data_source_local
 created_at: '2024-09-01 01:34:16.266107+00:00'
 data_integration: null
