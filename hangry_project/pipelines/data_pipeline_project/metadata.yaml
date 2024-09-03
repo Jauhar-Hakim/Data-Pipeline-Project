@@ -1,110 +1,43 @@
 blocks:
 - all_upstream_blocks_executed: true
-  color: yellow
+  color: null
   configuration: {}
   downstream_blocks:
-  - data_load_local
-  - data_load_api
+  - data_cleaning
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: data_source_condition
+  name: data_load_all
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
-  type: custom
+  type: data_loader
   upstream_blocks: []
-  uuid: data_source_condition
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    file_source:
-      path: data_loaders/data_load_local.py
-  downstream_blocks:
-  - df_checking
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: data_load_local
-  retry_config: null
-  status: not_executed
-  timeout: null
-  type: data_loader
-  upstream_blocks:
-  - data_source_condition
-  uuid: data_load_local
-- all_upstream_blocks_executed: true
-  color: null
-  configuration: {}
-  downstream_blocks: []
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: data_load_api
-  retry_config: null
-  status: executed
-  timeout: null
-  type: data_loader
-  upstream_blocks:
-  - data_source_condition
-  uuid: data_load_api
+  uuid: data_load_all
 - all_upstream_blocks_executed: false
   color: null
   configuration:
+    file_path: transformers/data_cleaning.py
     file_source:
-      path: transformers/df_checking.py
+      path: transformers/data_cleaning.py
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: df_checking
+  name: data_cleaning
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: transformer
   upstream_blocks:
-  - data_load_local
-  uuid: df_checking
+  - data_load_all
+  uuid: data_cleaning
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
-conditionals:
-- all_upstream_blocks_executed: true
-  color: null
-  configuration: {}
-  downstream_blocks: []
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: data_source_api
-  retry_config: null
-  status: updated
-  timeout: null
-  type: conditional
-  upstream_blocks:
-  - data_load_api
-  uuid: data_source_api
-- all_upstream_blocks_executed: false
-  color: null
-  configuration: {}
-  downstream_blocks: []
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: data_source_local
-  retry_config: null
-  status: updated
-  timeout: null
-  type: conditional
-  upstream_blocks:
-  - data_load_local
-  uuid: data_source_local
+conditionals: []
 created_at: '2024-09-01 01:34:16.266107+00:00'
 data_integration: null
 description: Data Pipeline Project with MAGE.AI

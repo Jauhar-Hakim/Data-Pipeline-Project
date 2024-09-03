@@ -3,8 +3,6 @@ if 'condition' not in globals():
 
 
 @condition
-def evaluate_condition(data, *args, **kwargs) -> bool:
-    if data=='local':
+def evaluate_condition(data, data_2, data_3, *args, **kwargs) -> bool:
+    if data|data_2|data_3 is not None:
         return True
-    else:
-        return False

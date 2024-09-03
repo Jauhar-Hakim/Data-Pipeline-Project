@@ -9,7 +9,7 @@ if 'test' not in globals():
 
 
 @data_loader
-def load_data_from_file(*args, **kwargs):
+def data_load_local(*args, **kwargs):
     """
     Template for loading data from filesystem.
     Load data from 1 file or multiple file directories.

@@ -3,5 +3,6 @@ if 'condition' not in globals():
 
 
 @condition
-def evaluate_condition(*args, **kwargs) -> bool:
-    return True
+def evaluate_condition(data, *args, **kwargs) -> bool:
+    if data=='mysql':
+        return True

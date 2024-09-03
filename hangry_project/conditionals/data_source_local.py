@@ -6,5 +6,3 @@ if 'condition' not in globals():
 def evaluate_condition(data, *args, **kwargs) -> bool:
     if data=='local':
         return True
-    else:
-        return False
