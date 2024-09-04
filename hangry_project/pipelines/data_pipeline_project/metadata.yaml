@@ -3,18 +3,35 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
-  - data_cleaning
+  - data_quality_check
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
   name: data_load_all
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: data_loader
   upstream_blocks: []
   uuid: data_load_all
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - data_cleaning
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: data_quality_check
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - data_load_all
+  uuid: data_quality_check
 - all_upstream_blocks_executed: false
   color: null
   configuration:
@@ -28,11 +45,11 @@ blocks:
   language: python
   name: data_cleaning
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: transformer
   upstream_blocks:
-  - data_load_all
+  - data_quality_check
   uuid: data_cleaning
 cache_block_output_in_memory: false
 callbacks: []

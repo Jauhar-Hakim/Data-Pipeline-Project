@@ -14,7 +14,7 @@ def fill_missing_values_with_median(df):
     return df
 
 def drop_duplicate(df):
-    return df_menu.drop_duplicates(keep='last')
+    return df.drop_duplicates(keep='last')
 
 @transformer
 def transform(data, *args, **kwargs):
@@ -54,9 +54,11 @@ def transform(data, *args, **kwargs):
 
     ###
     #Handling Missing-Value
-
-    #Price and Cogs in df_menu
-    
+    ###
+    df_menu_flaw=df_menu[df_menu.isna().any(axis=1)]
+    df_order_flaw=df_order[df_order.isna().any(axis=1)]
+    df_prmotion_flaw=df_promotion[df_promotion.isna().any(axis=1)]
+    #Price and Cogs in df_menu    
 
     return df_order.describe()
 
