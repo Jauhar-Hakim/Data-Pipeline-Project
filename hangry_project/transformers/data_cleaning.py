@@ -63,9 +63,16 @@ def transform(data, *args, **kwargs):
     else:
         df_menu=fill_missing_values_with_median(df_menu,['price','cogs'])
         df_order=fill_missing_values_with_median(df_order,['quantity'])
-        
-    return df_order.describe()
 
+        df_menu['effective_date']=df_menu['effective_date'].fillna(method='ffill')
+        df_order['sales_date'] = df_order.groupby('order_id')['sales_date'].fillna(method='ffill')
+        df_order=df_order.dropna(subset=['sales_date'])
+    #other column that can't do fillna
+    df_menu=df_menu.dropna(subset=['menu_id','brand','name'])
+    df_order=df_order.dropna(subset=['order_id','menu_id'])
+    df_promotion=df_promotion.dropna()
+
+    return df_order.describe()
 
 @test
 def test_output(output, *args) -> None:

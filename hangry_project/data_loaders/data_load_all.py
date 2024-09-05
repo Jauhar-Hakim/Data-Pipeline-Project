@@ -117,7 +117,6 @@ def data_load_all(*args, **kwargs):
 
     return {'df_menu':df_menu.to_json(orient='records'),'df_order':df_order.to_json(orient='records'),'df_promotion':df_promotion.to_json(orient='records')}
 
-
 @test
 def test_output(output, *args) -> None:
     """
