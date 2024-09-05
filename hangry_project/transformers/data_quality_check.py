@@ -12,13 +12,17 @@ def log_missing_values(data, df_name):
     missing_values = data.isnull().sum()
     for column, count in missing_values.items():
         if count > 0:
-            logger.warning(f'{df_name}: Missing values in {column}: {count} (for row {list(data[data.isna().any(axis=1)].index)} with {count/data.shape[0]:.3f}%)')
+            rowmiss=list(data[data.isna().any(axis=1)].index)
+            logger.warning(f'{df_name}: Missing values in {column}: {count} (for row {rowmiss} with {count/data.shape[0]:.3f}%)')
+            return rowmiss
 
 def log_inconsistencies(data, df_name):
     for column in data.select_dtypes(include=[np.number]):
         negative_values = (data[column] < 0).sum()
         if negative_values > 0:
-            logger.error(f'{df_name}: Inconsistent data in {column}: {negative_values} negative values found (for row {list(data[data[column] < 0].index)} with {negative_values/data.shape[0]:.3f}%)')
+            rowincs=list(data[data[column] < 0].index)
+            logger.error(f'{df_name}: Inconsistent data in {column}: {negative_values} negative values found (for row {rowincs} with {negative_values/data.shape[0]:.3f}%)')
+            return rowincs
 
 def log_outliers(data, df_name):
     from scipy.stats import zscore
@@ -26,20 +30,40 @@ def log_outliers(data, df_name):
     outliers = (z_scores > 3).sum()
     for column, count in zip(data.columns, outliers):
         if count > 0:
-            logger.info(f'{df_name}: Outliers detected in {column}: {count} potential outliers (for row {list(z_scores[z_scores[column] > 3].index)} with {count/data.shape[0]:.3f}%)')
+            rowoutl=list(z_scores[z_scores[column] > 3].index)
+            logger.info(f'{df_name}: Outliers detected in {column}: {count} potential outliers (for row {rowoutl} with {count/data.shape[0]:.3f}%)')
+            return rowoutl
 
 def log_data_quality(df_menu, df_order, df_promotion):
-    log_missing_values(df_menu, "df_menu")
-    log_inconsistencies(df_menu, "df_menu")
-    log_outliers(df_menu, "df_menu")
+    date_string = kwargs.get('execution_date').date()
 
-    log_missing_values(df_order, "df_order")
-    log_inconsistencies(df_order, "df_order")
-    log_outliers(df_order, "df_order")
+    # Create the directory if it doesn't exist
+    folder_name = f"/uncleaned_{date_string}"
+    os.makedirs(folder_name, exist_ok=True)
 
-    log_missing_values(df_promotion, "df_promotion")
-    log_inconsistencies(df_promotion, "df_promotion")
-    log_outliers(df_promotion, "df_promotion")
+    rowmiss=log_missing_values(df_menu, "df_menu")
+    rowincs=log_inconsistencies(df_menu, "df_menu")
+    rowoutl=log_outliers(df_menu, "df_menu")
+
+    # Export the DataFrame to a CSV file in the created directory
+    file_path = os.path.join(folder_name, f"df_menu_uncleaned_{date_string}.csv")
+    df_menu.iloc[list(set(rowmiss + rowincs + rowoutl))].to_csv(file_path, index=False)
+
+    rowmiss=log_missing_values(df_order, "df_order")
+    rowincs=log_inconsistencies(df_order, "df_order")
+    rowoutl=log_outliers(df_order, "df_order")
+
+    # Export the DataFrame to a CSV file in the created directory
+    file_path = os.path.join(folder_name, f"df_order_uncleaned_{date_string}.csv")
+    df_order.iloc[list(set(rowmiss + rowincs + rowoutl))].to_csv(file_path, index=False)
+
+    rowmiss=log_missing_values(df_promotion, "df_promotion")
+    rowincs=log_inconsistencies(df_promotion, "df_promotion")
+    rowoutl=log_outliers(df_promotion, "df_promotion")
+
+    # Export the DataFrame to a CSV file in the created directory
+    file_path = os.path.join(folder_name, f"df_promotion_uncleaned_{date_string}.csv")
+    df_promotion.iloc[list(set(rowmiss + rowincs + rowoutl))].to_csv(file_path, index=False)
 
 @transformer
 def transform(data, *args, **kwargs):

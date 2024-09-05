@@ -26,7 +26,7 @@ blocks:
   language: python
   name: data_quality_check
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: transformer
   upstream_blocks:
@@ -45,7 +45,7 @@ blocks:
   language: python
   name: data_cleaning
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: transformer
   upstream_blocks:
@@ -74,6 +74,7 @@ tags: []
 type: python
 uuid: data_pipeline_project
 variables:
+  missing: isolate
   source: local
 variables_dir: /home/src/mage_data/hangry_project
 widgets: []

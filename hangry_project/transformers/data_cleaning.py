@@ -6,15 +6,15 @@ if 'transformer' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
-def fill_missing_values_with_median(df):
-    for col in df.columns:
+def fill_missing_values_with_median(df,columns):
+    for col in columns:
         values = sorted(df[col].dropna().tolist())
         median_value = values[math.floor(len(values) / 2)]
         df[[col]] = df[[col]].fillna(median_value)
     return df
 
-def drop_duplicate(df):
-    return df.drop_duplicates(keep='last')
+def drop_duplicate(df,subset_column):
+    return df.drop_duplicates(subset=subset_column,keep='last')
 
 @transformer
 def transform(data, *args, **kwargs):
@@ -48,18 +48,22 @@ def transform(data, *args, **kwargs):
         df_promotion['date_created'] = kwargs.get('execution_date').date()
 
     #drop duplicate and keep last
-    df_menu = drop_duplicate(df_menu)
-    df_order = drop_duplicate(df_order)
-    df_promotion = drop_duplicate(df_promotion)
+    df_menu = drop_duplicate(df_menu,subset_column=['menu_id','brand','name','effective_date'])
+    df_order = drop_duplicate(df_ordersubset_column=['order_id','menu_id','sales_date'])
+    df_promotion = drop_duplicate(df_promotion,subset_column=['start_date','end_date'])
 
     ###
     #Handling Missing-Value
     ###
-    df_menu_flaw=df_menu[df_menu.isna().any(axis=1)]
-    df_order_flaw=df_order[df_order.isna().any(axis=1)]
-    df_prmotion_flaw=df_promotion[df_promotion.isna().any(axis=1)]
-    #Price and Cogs in df_menu    
-
+    #price, cogs, effective_date in df_menu
+    #quantity and sales_date in df_order
+    if kwargs['missing']=='isolate':
+        df_menu=df_menu.dropna(subset=['price','cogs','effective_date'])
+        df_order=df_order.dropna(subset=['quantity','sales_date'])
+    else:
+        df_menu=fill_missing_values_with_median(df_menu,['price','cogs'])
+        df_order=fill_missing_values_with_median(df_order,['quantity'])
+        
     return df_order.describe()
 
 
