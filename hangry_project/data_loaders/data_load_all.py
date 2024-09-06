@@ -99,6 +99,9 @@ def data_source_mysql():
     """)
     df_promotion = pd.DataFrame(cursor.fetchall())
 
+    cursor.close()
+    connection.close()
+
     return df_menu, df_order, df_promotion
 
 @data_loader

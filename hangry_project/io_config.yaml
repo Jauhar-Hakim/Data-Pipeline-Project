@@ -67,11 +67,11 @@ default:
   MSSQL_PORT: 1433
   MSSQL_USER: SA
   # MySQL
-  MYSQL_DATABASE: database
-  MYSQL_HOST: host
-  MYSQL_PASSWORD: password
-  MYSQL_PORT: 3306
-  MYSQL_USER: root
+  MYSQL_DATABASE: staging
+  MYSQL_HOST: hangrytest-hangrytest.h.aivencloud.com
+  MYSQL_PASSWORD: {{ env_var('MYSQL_PASS') }}
+  MYSQL_PORT: 21843
+  MYSQL_USER: avnadmin
   # Pinot
   PINOT_HOST: hostname
   PINOT_PASSWORD: password

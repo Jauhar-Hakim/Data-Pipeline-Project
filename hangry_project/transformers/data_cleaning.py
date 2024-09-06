@@ -1,4 +1,5 @@
 import json
+import numpy as np
 import pandas as pd
 
 if 'transformer' not in globals():
@@ -49,7 +50,7 @@ def transform(data, *args, **kwargs):
 
     #drop duplicate and keep last
     df_menu = drop_duplicate(df_menu,subset_column=['menu_id','brand','name','effective_date'])
-    df_order = drop_duplicate(df_ordersubset_column=['order_id','menu_id','sales_date'])
+    df_order = drop_duplicate(df_order,subset_column=['order_id','menu_id','sales_date'])
     df_promotion = drop_duplicate(df_promotion,subset_column=['start_date','end_date'])
 
     ###
@@ -72,7 +73,14 @@ def transform(data, *args, **kwargs):
     df_order=df_order.dropna(subset=['order_id','menu_id'])
     df_promotion=df_promotion.dropna()
 
-    return df_order.describe()
+    ###Drop Noise (Incosistencies) Data
+    df_menu = df_menu[~(df_menu.select_dtypes(include=[np.number]) < 0).any(axis=1)]
+    df_order = df_order[~(df_order.select_dtypes(include=[np.number]) < 0).any(axis=1)]
+    df_promotion = df_promotion[~(df_promotion.select_dtypes(include=[np.number]) < 0).any(axis=1)]
+    
+    #I won't do anything to outlier
+
+    return {'df_menu':df_menu.to_json(orient='records'),'df_order':df_order.to_json(orient='records'),'df_promotion':df_promotion.to_json(orient='records')}
 
 @test
 def test_output(output, *args) -> None:

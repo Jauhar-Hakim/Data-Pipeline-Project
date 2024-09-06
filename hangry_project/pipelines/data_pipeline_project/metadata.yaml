@@ -38,19 +38,36 @@ blocks:
     file_path: transformers/data_cleaning.py
     file_source:
       path: transformers/data_cleaning.py
-  downstream_blocks: []
+  downstream_blocks:
+  - data_staging
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
   name: data_cleaning
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: transformer
   upstream_blocks:
   - data_quality_check
   uuid: data_cleaning
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: data_staging
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - data_cleaning
+  uuid: data_staging
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -76,5 +93,6 @@ uuid: data_pipeline_project
 variables:
   missing: isolate
   source: local
+  staging: local
 variables_dir: /home/src/mage_data/hangry_project
 widgets: []

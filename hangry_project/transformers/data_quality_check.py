@@ -77,9 +77,10 @@ def log_data_quality(df_menu, df_order, df_promotion):
 def transform(data, *args, **kwargs):
     """
     Data Quality Checking
-    1. Check missing value
-    2. Check noise data (inconsistencies)
-    3. Check outliers
+    1. Drop duplicate data
+    2. Check missing value
+    3. Check noise data (inconsistencies)
+    4. Check outliers
     """
     df_menu_list = json.loads(data['df_menu'])
     df_order_list = json.loads(data['df_order'])
