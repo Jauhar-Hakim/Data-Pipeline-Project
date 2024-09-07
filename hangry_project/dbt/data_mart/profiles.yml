@@ -1,0 +1,11 @@
+data_mart:
+  outputs:
+    dev-mysql:
+      type: mysql
+      server: hangrytest-hangrytest.h.aivencloud.com
+      port: 21843  # optional
+      database: staging # optional, should be same as schema
+      schema: staging
+      username: avnadmin
+      password: AVNS_zRK6yfEXEVQK-tHTiQ_
+      driver: MySQL ODBC 8.0 ANSI Driver
