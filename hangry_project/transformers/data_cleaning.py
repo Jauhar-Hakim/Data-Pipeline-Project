@@ -1,4 +1,3 @@
-import os
 import json
 import numpy as np
 import pandas as pd
@@ -40,6 +39,14 @@ def transform(data, *args, **kwargs):
     df_menu = pd.DataFrame(df_menu_list)
     df_order = pd.DataFrame(df_order_list)
     df_promotion = pd.DataFrame(df_promotion_list)
+
+    #adding date_created column for backfilling purpose and efficient pipeline
+    if 'date_created' in list(df_menu.columns)==False:
+        df_menu['date_created'] = kwargs.get('execution_date').date()
+    if 'date_created' in list(df_order.columns)==False:
+        df_order['date_created'] = kwargs.get('execution_date').date()
+    if 'date_created' in list(df_promotion.columns)==False:
+        df_promotion['date_created'] = kwargs.get('execution_date').date()
 
     #drop duplicate and keep last
     df_menu = drop_duplicate(df_menu,subset_column=['menu_id','brand','name','effective_date'])

@@ -59,8 +59,7 @@ def create_database_mysql(connection):
                             menu_id INTEGER,
                             quantity INTEGER,
                             sales_date DATE,
-                            UNIQUE(order_id, menu_id, sales_date),
-                            FOREIGN KEY (menu_id) REFERENCES Menu_Staging(menu_id));
+                            UNIQUE(order_id, menu_id, sales_date));
     """)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS
@@ -69,7 +68,7 @@ def create_database_mysql(connection):
                                 end_date DATE,
                                 disc_value DECIMAL(5,3),
                                 max_disc INTEGER,
-                                UNIQUE(id, start_date, end_date));
+                                UNIQUE(start_date, end_date));
         """)
     
 def create_database_local(connection):
@@ -96,19 +95,21 @@ def create_database_local(connection):
     """)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS
-            Promotion_Staging (id INTEGER,
+            Promotion_Staging (id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 start_date DATE,
                                 end_date DATE,
                                 disc_value DECIMAL(5,3),
                                 max_disc INTEGER,
-                                UNIQUE(id, start_date, end_date));
+                                UNIQUE(start_date, end_date));
         """)
+
 
 def upsert_df_menu_local(row):
     create_unique_index_query = '''
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_menuid_effective_date
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_menu_brand_name_effective_date
     ON Menu_Staging (menu_id, effective_date)
     '''
+
     upsert_query = '''
         INSERT INTO Menu_Staging (menu_id, brand, name, price, cogs, effective_date)
         VALUES (?, ?, ?, ?, ?, ?)
@@ -139,64 +140,6 @@ def upsert_df_menu_mysql(row):
     cursor.execute(upsert_query, (row['menu_id'], row['brand'], row['name'], row['price'], row['cogs'], row['effective_date']))
     connection.commit()
 
-def upsert_df_order_local(row):
-    create_unique_index_query = '''
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_order_id_menu_id_sales_date
-    ON Order_Staging (order_id, menu_id, sales_date)
-    '''
-    upsert_query = '''
-        INSERT INTO Order_Staging (order_id, menu_id, quantity, sales_date)
-        VALUES (?, ?, ?, ?)
-        ON CONFLICT(order_id, menu_id, sales_date) DO UPDATE SET quantity = excluded.quantity
-    '''
-    connection=connect_local('staging')
-    cursor = connection.cursor()
-    cursor.execute(create_unique_index_query)
-    cursor.execute(upsert_query, (row['order_id'], row['menu_id'], row['quantity'], row['sales_date']))
-    connection.commit()
-
-def upsert_df_order_mysql(row):
-    upsert_query = '''
-    INSERT INTO Order_Staging (order_id, menu_id, quantity, sales_date)
-    VALUES (%s, %s, %s, %s)
-    ON DUPLICATE KEY UPDATE quantity = VALUES(quantity)
-    '''
-    connection=connect_mysql()
-    cursor = connection.cursor()
-    cursor.execute(upsert_query, (row['order_id'], row['menu_id'], row['quantity'], row['sales_date']))
-    connection.commit()
-
-def upsert_df_promotion_local(row):
-    create_unique_index_query = '''
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_id_start_date_end_date
-    ON Promotion_Staging (id, start_date, end_date)
-    '''
-    upsert_query = '''
-        INSERT INTO Promotion_Staging (id, start_date, end_date, disc_value, max_disc)
-        VALUES (?, ?, ?, ?, ?)
-        ON CONFLICT(id, start_date, end_date) DO UPDATE SET
-            disc_value = excluded.disc_value,
-            max_disc = excluded.max_disc
-    '''
-    connection=connect_local('staging')
-    cursor = connection.cursor()
-    cursor.execute(create_unique_index_query)
-    cursor.execute(upsert_query, (row['id'], row['start_date'], row['end_date'], row['disc_value'], row['max_disc']))
-    connection.commit()
-
-def upsert_df_promotion_mysql(row):
-    upsert_query = '''
-    INSERT INTO Promotion_Staging (id, start_date, end_date, disc_value, max_disc)
-    VALUES (%s, %s, %s, %s, %s)
-    ON DUPLICATE KEY UPDATE
-        disc_value = VALUES(disc_value),
-        max_disc = VALUES(max_disc)
-    '''
-    connection=connect_mysql()
-    cursor = connection.cursor()
-    cursor.execute(upsert_query, (row['id'], row['start_date'], row['end_date'], row['disc_value'], row['max_disc']))
-    connection.commit()
-
 @data_exporter
 def export_data_to_mysql(data, *args, **kwargs):
     """
@@ -218,28 +161,21 @@ def export_data_to_mysql(data, *args, **kwargs):
         create_database_mysql(connection)
         cursor = connection.cursor()
         df_menu.apply(upsert_df_menu_mysql, axis=1)
-        df_order.apply(upsert_df_order_mysql, axis=1)
-        df_promotion.apply(upsert_df_promotion_mysql, axis=1)
     else:
         connection=connect_local('staging')
         create_database_local(connection)
         cursor = connection.cursor()
-        df_menu.apply(upsert_df_menu_local, axis=1)
-        df_order.apply(upsert_df_order_local, axis=1)
-        df_promotion.apply(upsert_df_promotion_local, axis=1)
 
-    # # Query the data
+        df_menu.apply(upsert_df_menu_local, axis=1)
+
+    # Query the data
     select_query = 'SELECT * FROM Menu_Staging'
     cursor.execute(select_query)
+
+    # Fetch all rows from the executed query
+    display(cursor.description)
     display(pd.DataFrame(cursor.fetchall()))
 
-    select_query = 'SELECT * FROM Order_Staging'
-    cursor.execute(select_query)
-    display(pd.DataFrame(cursor.fetchall()))
-
-    select_query = 'SELECT * FROM Promotion_Staging'
-    cursor.execute(select_query)
-    display(pd.DataFrame(cursor.fetchall()))
-
+    # Close Connection
     cursor.close()
     connection.close()

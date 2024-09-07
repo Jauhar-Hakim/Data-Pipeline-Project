@@ -1,0 +1,58 @@
+[0m03:23:29.712276 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1efb47eb00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1ef92eb370>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1ef92eb310>]}
+
+
+============================== 03:23:29.720910 | e8ecb04c-0ae9-4290-82cd-4d1b987ce7cc ==============================
+[0m03:23:29.720910 [info ] [MainThread]: Running with dbt=1.7.4
+[0m03:23:29.723527 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/root/.dbt', 'version_check': 'True', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'target_path': 'None', 'invocation_command': 'dbt init', 'send_anonymous_usage_stats': 'True'}
+[0m03:23:29.725909 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': PosixPath('/root/.dbt')}
+[0m03:23:29.728872 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m03:23:40.330165 [debug] [MainThread]: Starter project path: /usr/local/lib/python3.10/site-packages/dbt/include/starter_project
+[0m03:23:40.651893 [info ] [MainThread]: 
+Your new dbt project "data_mart_transformation_mysql" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m03:23:40.655315 [info ] [MainThread]: Setting up your profile.
+[0m03:24:42.176796 [info ] [MainThread]: Profile data_mart_transformation_mysql written to /root/.dbt/profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m03:24:42.179079 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 72.47731, "process_user_time": 3.09534, "process_kernel_time": 0.266486, "process_mem_max_rss": "104004", "process_in_blocks": "70352", "process_out_blocks": "8"}
+[0m03:24:42.181309 [debug] [MainThread]: Command `dbt init` succeeded at 03:24:42.181022 after 72.48 seconds
+[0m03:24:42.182867 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1efb47eb00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1efdb3afe0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f1ef92eb430>]}
+[0m03:24:42.185813 [debug] [MainThread]: Flushing usage events
+[0m03:40:18.975960 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6e8b2440>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6c786fb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6c786f20>]}
+
+
+============================== 03:40:18.986475 | 7b21a443-718c-410d-b3d9-791073bf754c ==============================
+[0m03:40:18.986475 [info ] [MainThread]: Running with dbt=1.7.4
+[0m03:40:18.988572 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/src/hangry_project/dbt', 'version_check': 'True', 'fail_fast': 'False', 'log_path': 'logs', 'warn_error': 'None', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'introspect': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'invocation_command': 'dbt init -s data_mart', 'send_anonymous_usage_stats': 'True'}
+[0m03:40:18.994937 [debug] [MainThread]: Starter project path: /usr/local/lib/python3.10/site-packages/dbt/include/starter_project
+[0m03:40:19.256698 [info ] [MainThread]: 
+Your new dbt project "data_mart" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m03:40:19.262370 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 0.369578, "process_user_time": 3.061635, "process_kernel_time": 0.77284, "process_mem_max_rss": "97780", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m03:40:19.264593 [debug] [MainThread]: Command `dbt init` succeeded at 03:40:19.264230 after 0.37 seconds
+[0m03:40:19.266233 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6e8b2440>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6c786d10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fda6c7872e0>]}
+[0m03:40:19.268114 [debug] [MainThread]: Flushing usage events

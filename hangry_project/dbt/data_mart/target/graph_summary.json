@@ -1,1 +1,0 @@
-{"_invocation_id": "73a0c66f-f184-4d2e-874e-faf1cf7beb27", "linked": {"0": {"name": "source.data_mart.mage_data_mart.data_pipeline_project_data_staging", "type": "source"}, "1": {"name": "model.data_mart.coba", "type": "model"}}}
