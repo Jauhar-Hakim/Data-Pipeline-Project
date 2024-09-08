@@ -229,17 +229,17 @@ def export_data_to_mysql(data, *args, **kwargs):
         df_promotion.apply(upsert_df_promotion_local, axis=1)
 
     # # Query the data
-    select_query = 'SELECT * FROM Menu_Staging'
-    cursor.execute(select_query)
-    display(pd.DataFrame(cursor.fetchall()))
+    # select_query = 'SELECT * FROM Menu_Staging'
+    # cursor.execute(select_query)
+    # display(pd.DataFrame(cursor.fetchall()))
 
-    select_query = 'SELECT * FROM Order_Staging'
-    cursor.execute(select_query)
-    display(pd.DataFrame(cursor.fetchall()))
+    # select_query = 'SELECT * FROM Order_Staging'
+    # cursor.execute(select_query)
+    # display(pd.DataFrame(cursor.fetchall()))
 
-    select_query = 'SELECT * FROM Promotion_Staging'
-    cursor.execute(select_query)
-    display(pd.DataFrame(cursor.fetchall()))
+    # select_query = 'SELECT * FROM Promotion_Staging'
+    # cursor.execute(select_query)
+    # display(pd.DataFrame(cursor.fetchall()))
 
     cursor.close()
     connection.close()

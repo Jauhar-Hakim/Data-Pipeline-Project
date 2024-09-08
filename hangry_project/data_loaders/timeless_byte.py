@@ -29,7 +29,7 @@ def data_load_mysql(*args, **kwargs):
     cursor = connection.cursor()
 
     cursor.execute("""
-        SHOW FULL TABLES;
+        SELECT * FROM daily_sales_transaction;
     """)
     show = pd.DataFrame(cursor.fetchall())
 

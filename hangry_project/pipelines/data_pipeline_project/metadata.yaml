@@ -46,7 +46,7 @@ blocks:
   language: python
   name: data_cleaning
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: transformer
   upstream_blocks:
@@ -55,7 +55,8 @@ blocks:
 - all_upstream_blocks_executed: false
   color: null
   configuration: {}
-  downstream_blocks: []
+  downstream_blocks:
+  - dbt/data_mart/models/daily_sales_transaction
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -68,6 +69,94 @@ blocks:
   upstream_blocks:
   - data_cleaning
   uuid: data_staging
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    dbt_project_name: dbt/data_mart
+    file_path: dbt/data_mart/models/daily_sales_transaction.sql
+    file_source:
+      path: dbt/data_mart/models/daily_sales_transaction.sql
+      project_path: dbt/data_mart
+    limit: 1000
+  downstream_blocks:
+  - dbt/data_mart/models/daily_sales_trend
+  - dbt/data_mart/models/month_to_date_sales
+  - dbt/data_mart/models/weekly_sales_trend
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: dbt/data_mart/models/daily_sales_transaction
+  retry_config: null
+  status: updated
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - data_staging
+  uuid: dbt/data_mart/models/daily_sales_transaction
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    dbt_project_name: dbt/data_mart
+    file_path: dbt/data_mart/models/daily_sales_trend.sql
+    file_source:
+      path: dbt/data_mart/models/daily_sales_trend.sql
+      project_path: dbt/data_mart
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: daily_sales_trend
+  retry_config: null
+  status: updated
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - dbt/data_mart/models/daily_sales_transaction
+  uuid: dbt/data_mart/models/daily_sales_trend
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    dbt_project_name: dbt/data_mart
+    file_path: dbt/data_mart/models/weekly_sales_trend.sql
+    file_source:
+      path: dbt/data_mart/models/weekly_sales_trend.sql
+      project_path: dbt/data_mart
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: weekly_sales_trend
+  retry_config: null
+  status: updated
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - dbt/data_mart/models/daily_sales_transaction
+  uuid: dbt/data_mart/models/weekly_sales_trend
+- all_upstream_blocks_executed: false
+  color: null
+  configuration:
+    dbt_project_name: dbt/data_mart
+    file_path: dbt/data_mart/models/month_to_date_sales.sql
+    file_source:
+      path: dbt/data_mart/models/month_to_date_sales.sql
+      project_path: dbt/data_mart
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: month_to_date_sales
+  retry_config: null
+  status: updated
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - dbt/data_mart/models/daily_sales_transaction
+  uuid: dbt/data_mart/models/month_to_date_sales
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
