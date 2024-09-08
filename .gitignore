@@ -173,3 +173,4 @@ your-first-project
 
 #dbt
 /hangry_project/dbt/data_mart/profiles.yml
+hangry_project/dbt/data_mart/models/mage_sources.yml
