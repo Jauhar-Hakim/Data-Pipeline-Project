@@ -170,3 +170,6 @@ scratch*
 /mage_data*
 *secrets*.json
 your-first-project
+
+#dbt
+/hangry_project/dbt/data_mart/profiles.yml

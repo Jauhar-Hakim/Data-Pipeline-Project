@@ -1,4 +1,5 @@
 data_mart:
+  target: dev-mysql
   outputs:
     dev-mysql:
       type: mysql
@@ -7,5 +8,13 @@ data_mart:
       database: staging # optional, should be same as schema
       schema: staging
       username: avnadmin
-      password: AVNS_zRK6yfEXEVQK-tHTiQ_
+      password: "{{ env_var('MYSQL_PASS') }}"
       driver: MySQL ODBC 8.0 ANSI Driver
+    dev-sqlite:
+      type: sqlite
+      threads: 1
+      database: 'database'
+      schema: 'main'
+      schemas_and_paths:
+        main: 'staging.db'
+      schema_directory: './'

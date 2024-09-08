@@ -1,0 +1,4 @@
+--select "daily_sales_trend.sql"
+--select "weekly_sales_trend.sql"
+--select "month_to_date_sales.sql"
+--select "daily_sales_transaction.sql"
